@@ -69,12 +69,12 @@ public class Display {
 	}
 
 	// 開発側確認用の迷路
-	static void display() {
+	/*static void display() {
 		for (int[] array : Maze.Maze) {
 			for (int a : array) {
 				System.out.print(a);
 			}
 			System.out.println("");
 		}
-	}
+	}*/
 }
