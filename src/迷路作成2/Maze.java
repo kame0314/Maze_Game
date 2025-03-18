@@ -34,13 +34,12 @@ public class Maze {
 		while (true) {
 			StartW = rand.nextInt(MazesizeW - 1);// NPCスタート位置のRow
 			StartH = rand.nextInt(MazesizeH - 1);// NPCスタート位置のColumn
-			System.out.print("StartW" + StartW);
-			System.out.println("StartH" + StartH);
-			if (StartW == 1&&StartH!=0|| StartH == 1&&StartW!=0) {
+
+			if (StartW == 1 && StartH != 0 || StartH == 1 && StartW != 0) {
 				break;
 			}
 		}
-		System.out.println("");
+
 		S_POSITION_W = StartW;
 		S_POSITION_H = StartH;
 		Maze[StartW][StartH] = 0;
@@ -59,7 +58,6 @@ public class Maze {
 		while (continueFlag) {
 
 			// 上下左右のいずれかに限界まで道を伸ばす
-			System.out.println("extendPath 処理開始");
 			extendPath();
 
 			// 既にある道から次の開始位置を選ぶ（0 〜 mazeSize - 1（かつ 偶数？））
@@ -69,60 +67,49 @@ public class Maze {
 
 				StartW = rowStack.pop();
 				StartH = colStack.pop();
-				System.out.println("指定した方向へ拡張可能かどうか判定 canExtendPath　処理開始");
+
 				if (canExtendPath()) {
-					System.out.println("指定した方向へ拡張可能かどうか判定 canExtendPath　true 処理終了");
 					continueFlag = true;
 					break;
 				}
-				System.out.println("指定した方向へ拡張可能かどうか判定 canExtendPath　false 処理終了");
+
 			}
 		}
 	}
 
 	// 道を拡張するメソッド
 	public static void extendPath() {
-		System.out.println("道の拡張　extendpath 処理中");
 		boolean extendFlag = true;
 
 		while (extendFlag) {
-			System.out.println("道の拡張 extendPathsub　処理開始");
 			extendFlag = extendPathSub();
 		}
-		System.out.println("道の拡張　extendpath 処理終了");
 	}
 
 	// 道の拡張に成功したらtrue、失敗したらfalseを返すメソッド
 	public static boolean extendPathSub() {
-		System.out.println("道の拡張 extendPathsub　処理中");
+
 		Random rmd = new Random();
 		// 上: 0, 下: 1, 左: 2, 右: 3
 		int direction = rmd.nextInt(4);
 		for (int i = 0; i < 4; i++) {
 			direction = (direction + i) % 4;
-			System.out.println("指定した方向へ拡張可能か判定　CanExtensPathDir 処理開始");
-			if (canExtendPathWithDir(direction)) {
-				System.out.println("指定した方向へ拡張可能か判定 CanExtensPathDir true 処理完了");
-				System.out.println("指定したマスへ移動する　MoVepoint 処理開始");
-				movePoint(direction);
-				System.out.println("MoVepoint 処理終了" + " direction=" + direction);
-				System.out.println("道の拡張 extendPathsub false　処理終了");
-				return true;
 
+			if (canExtendPathWithDir(direction)) {
+				movePoint(direction);
+				return true;
 			}
-			System.out.println("指定した方向へ拡張可能か判定　CanExtensPathDir false 処理完了");
+
 		}
-		System.out.println("道の拡張 extendPathsub　true 処理終了");
+
 		return false;
 	}
 
 	// 指定した方向へ拡張可能ならばtrue、不可能ならばfalseを返すメソッド
 	public static boolean canExtendPathWithDir(int direction) {
-		System.out.println("CanExtensPathDir 処理中");
+
 		int exRow = StartW, exCol = StartH;
-		System.out.print("exRow" + exRow);
-		System.out.println("exCol" + exCol);
-		System.out.println("4 拡張可能かどうか CanEx 処理開始");
+
 		switch (direction) {
 		case 0: // 上
 			exRow--;
@@ -140,18 +127,15 @@ public class Maze {
 			exCol++;
 			break;
 		}
-		System.out.println("周囲1マスにある道の数を数える　countSurroundingPath 処理開始");
+
 		if (countSurroundingPath(exRow, exCol) > 1) {
-			System.out.println("周囲1マスにある道の数を数える　countSurroundingPath false 処理終了");
 			return false;
 		}
-		System.out.println("周囲1マスにある道の数を数える　countSurroundingPath true 処理終了");
 		return true;
 	}
 
 	// 周囲1マスにある道の数を数えるメソッド
 	public static int countSurroundingPath(int row, int col) {
-		System.out.println("周囲1マスにある道の数を数える　countSurroundingPath 処理中");
 		int num = 0;
 		if (row - 1 < 0 || Maze[row - 1][col] == 0) {
 			num++;
@@ -165,13 +149,11 @@ public class Maze {
 		if (col + 1 > MazesizeH - 1 || Maze[row][col + 1] == 0) {
 			num++;
 		}
-		System.out.println(num);
 		return num;
 	}
 
 	// 指定した方向へ1マスrowとcolを移動させるメソッド
 	public static void movePoint(int direction) {
-		System.out.println("指定したマスへ移動する　MoVepoint 処理中");
 		switch (direction) {
 		case 0: // 上
 			StartW--;
@@ -193,11 +175,9 @@ public class Maze {
 		Maze[StartW][StartH] = 0;
 		rowStack.push(StartW);
 		colStack.push(StartH);
-		System.out.println("6  上下左右 Movepoint");
 	}
 
 	static boolean canExtendPath() {
-		System.out.println("指定した方向へ拡張可能かどうか判定 canExtendPath 処理中");
 		return (canExtendPathWithDir(0) || canExtendPathWithDir(1) || canExtendPathWithDir(2)
 				|| canExtendPathWithDir(3));
 	}
@@ -208,8 +188,6 @@ public class Maze {
 			Random rand = new Random();// ランダム関数
 			GoalW = rand.nextInt(MazesizeW - 1);// NPCスタート位置のRow
 			GoalH = rand.nextInt(MazesizeH - 1);// NPCスタート位置のColumn
-			System.out.print("GoalW" + GoalW);
-			System.out.println("GoalH" + GoalH);
 			if (GoalW == 1 || GoalH == 1 && Maze[GoalW][GoalH] == 0 && Maze[GoalW][GoalH] != 2) {
 				break;
 			}

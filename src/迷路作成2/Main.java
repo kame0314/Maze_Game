@@ -17,7 +17,6 @@ public class Main {
 		Maze.Goal();
 
 		while (true) {
-			Display.display();
 			System.out.print("ここまで"+Move.Count + "回移動したよ");
 			Display.User_Display(Move.userRow, Move.userCol);
 			Move.moveUsr(sc.next());
@@ -27,7 +26,7 @@ public class Main {
 				return;
 			}
 			if (Maze.Maze[Move.userRow][Move.userCol] == 3) {
-				System.out.println("Goal!!");
+				System.out.println("やった！ゴールについたよ！");
 				break;
 			}
 		}
